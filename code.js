@@ -10,6 +10,23 @@ function convertToHex(dec) {
     }
 }
 
+function validColorCode(t)
+{
+    if (typeof t !== "undefined") {
+        t = String(t);
+        var letterNumber = /^[0-9a-fA-F]+$/;
+        if (t.match(letterNumber))
+        {
+            return true;
+        } else {
+            return false;
+        }
+
+    } else {
+        return false;
+    }
+}
+
 var colorPalette = new function()
 {
     colors = [];
@@ -63,14 +80,14 @@ var colorPalette = new function()
 
                 try {
                     //if (sel.test(document.styleSheets[i].cssRules[j].selectorText)) {
-                        try {
-                            hexColor2 = rgbToHashStyle(document.styleSheets[i].cssRules[j].style.cssText)
-                            if (hexColor2) {
-                                //colors[hexColor2] = hexColor2;
-                            }
-                        } catch (e) {
-                            //console.log('err')
+                    try {
+                        hexColor2 = rgbToHashStyle(document.styleSheets[i].cssRules[j].style.cssText)
+                        if (hexColor2) {
+                            //colors[hexColor2] = hexColor2;
                         }
+                    } catch (e) {
+                        //console.log('err')
+                    }
                     //}
                 } catch (e) {
                     //console.log('err2');
@@ -92,10 +109,13 @@ var colorPalette = new function()
         } else {
             urlString += ',';
         }
-        if(colors[key].length==3 || colors[key].length==6){
-            urlString += colors[key];
+        console.log(colors[key] + ' : ' + colors[key].length);
+        if (validColorCode(colors[key])) {
+            if (colors[key].length == 3 || colors[key].length == 6) {
+                urlString += colors[key];
+            }
         }
-        
+
     }
     window.open('http://accessibility.oit.ncsu.edu/tools/color-contrast/accessible-color-palette.php?colors=' + urlString + '&level=AA', '_blank');
 
